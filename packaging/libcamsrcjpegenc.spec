@@ -1,7 +1,7 @@
 Name:       libcamsrcjpegenc
 Summary:    camerasrc JPEG encoder Development library
 Version:    0.1.9
-Release:    1
+Release:    0
 Group:      libdevel
 License:    TO_BE_FILL
 Source0:    %{name}-%{version}.tar.gz
@@ -23,6 +23,7 @@ camerasrc JPEG encoder Development library
 %setup -q -n %{name}-%{version}
 
 %build
+export CFLAGS+=" -Wall -Wcast-align -Wcast-qual -Wextra -Wno-array-bounds -Wno-empty-body -Wno-ignored-qualifiers -Wno-unused-parameter -Wshadow -Wwrite-strings -Wswitch-default -Wno-unused-but-set-parameter -Wno-unused-but-set-variable"
 ./autogen.sh
 %configure --disable-static --enable-dlog
 make %{?jobs:-j%jobs}
