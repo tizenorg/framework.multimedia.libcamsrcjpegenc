@@ -56,11 +56,11 @@ typedef gboolean (*EncodeJPEGFunc)      ( jpegenc_parameter *enc_param );
 
 
 /* Internal Function */
-static int _encode_jpeg( char *enc_lib_path, jpegenc_internal_info *enc_detail_info, jpegenc_parameter *enc_param );
+static int _encode_jpeg( const char *enc_lib_path, jpegenc_internal_info *enc_detail_info, jpegenc_parameter *enc_param );
 
 
 static int
-_encode_jpeg( char *enc_lib_path, jpegenc_internal_info *info, jpegenc_parameter *enc_param )
+_encode_jpeg( const char *enc_lib_path, jpegenc_internal_info *info, jpegenc_parameter *enc_param )
 {
 	int ret = CAMSRC_JPEGENC_ERROR_NONE;
 	//unsigned char *src_data = NULL;
@@ -165,6 +165,13 @@ camsrcjpegenc_get_src_fmt( guint32 fourcc, ColorFormatType *src_fmt )
 			camsrc_jpegenc_debug( "UYVY" );
 			break;
 
+		case MAKE_FOURCC('B','G','R','x'):
+		case MAKE_FOURCC('B','G','R','A'):
+		case MAKE_FOURCC('S','R','3','2'):
+			*src_fmt = COLOR_FORMAT_BGRA;
+			camsrc_jpegenc_debug( "BGRA" );
+			break;
+		case MAKE_FOURCC('R','G','B','x'):
 		case MAKE_FOURCC('R','G','B','A'):
 			*src_fmt = COLOR_FORMAT_RGBA;
 			camsrc_jpegenc_debug( "RGBA" );
@@ -197,7 +204,7 @@ camsrcjpegenc_get_src_fmt( guint32 fourcc, ColorFormatType *src_fmt )
 			break;
 
 		default:
-			camsrc_jpegenc_warning( "Can not convert fourcc[%d]", fourcc );
+			camsrc_jpegenc_warning( "Can not convert fourcc[%c%c%c%c]", fourcc, fourcc>>8, fourcc>>16, fourcc>>24 );
 			ret = FALSE;
 			break;
 	}
@@ -209,7 +216,7 @@ int
 camsrcjpegenc_get_info( jpegenc_info *enc_info )
 {
 	int i = 0, j = 0, ret = CAMSRC_JPEGENC_ERROR_NONE;
-	char *ENCODER_LIB_PATH[JPEG_ENCODER_NUM] = { PATH_SW_ENCODER_LIB, PATH_HW_ENCODER_LIB };
+	const char *ENCODER_LIB_PATH[JPEG_ENCODER_NUM] = { PATH_SW_ENCODER_LIB, PATH_HW_ENCODER_LIB };
 
 #ifdef USE_GMODULE
 	GModule *module = NULL;

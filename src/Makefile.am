@@ -11,12 +11,12 @@ libcamsrcjpegenc_la_CFLAGS = -I$(srcdir)/include \
                              $(GLIB_CFLAGS) \
                              $(GMODULE_CFLAGS)
 
-libcamsrcjpegenc_la_LIBADD = $(GLIB_LIBS) \
-                             $(GMODULE_LIBS)
-
 if USE_DLOG
-libcamsrcjpegenc_la_CFLAGS += $(DLOG_CFLAGS) -DUSE_DLOG
-
-libcamsrcjpegenc_la_LIBADD += $(DLOG_LIBS)
+libcamsrcjpegenc_la_CFLAGS += $(DLOG_CFLAGS)\
+			-DUSE_DLOG
 endif
+
+libcamsrcjpegenc_la_LIBADD = $(DLOG_LIBS) \
+                             $(GLIB_LIBS) \
+                             $(GMODULE_LIBS)
 

@@ -59,6 +59,8 @@ AC_HEADER_TIME
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([gethostname gettimeofday memset uname])
 
+#AM_CONDITIONAL([ISPROTECTOR_VODA_SDK], [test "x$DISTRO" = "xvodafone-sdk" && test "x$MACHINE" = "xprotector"])
+
 AC_CONFIG_FILES([Makefile
                  src/Makefile
                  camsrcjpegenc.pc
